@@ -230,7 +230,6 @@
 
             <!-- Container do Street View -->
             <div id="streetview" class="street-view-container">
-                <!-- Emoji interativo -->
                 
             </div>
 
