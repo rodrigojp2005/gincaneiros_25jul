@@ -12,6 +12,9 @@
 
         <!-- Google Maps API -->
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzEzusC_k3oEoPnqynq2N4a0aA3arzH-c&libraries=geometry&callback=initGame"></script>
+        
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <!-- Styles / Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -160,11 +163,45 @@
                 padding: 10px;
                 z-index: 50;
             }
+            
+            .help-emoji {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 48px;
+                cursor: pointer;
+                z-index: 200;
+                background: rgba(255,255,255,0.9);
+                border-radius: 50%;
+                width: 80px;
+                height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                transition: all 0.3s ease;
+                animation: pulse 2s infinite;
+            }
+            
+            .help-emoji:hover {
+                transform: translate(-50%, -50%) scale(1.1);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            }
+            
+            @keyframes pulse {
+                0% { box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+                50% { box-shadow: 0 4px 25px rgba(255,193,7,0.6); }
+                100% { box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+            }
         </style>
     </head>
     <body class="bg-gray-100">
         <!-- Header com menu de login/cadastro -->
         <header class="fixed top-0 left-0 w-full bg-white shadow-md z-50 p-4">
+             <div class="help-emoji" onclick="showHelpMessage()">
+                    🤔
+                </div>
             @if (Route::has('login'))
                 <nav class="flex items-center justify-between">
                     <h1 class="text-xl font-bold text-blue-600">Gincaneiros</h1>
@@ -192,7 +229,10 @@
             </div>
 
             <!-- Container do Street View -->
-            <div id="streetview" class="street-view-container"></div>
+            <div id="streetview" class="street-view-container">
+                <!-- Emoji interativo -->
+                
+            </div>
 
             <!-- Controles do jogo -->
             <div class="game-controls">
@@ -338,7 +378,12 @@
 
             function confirmGuess() {
                 if (!userGuess) {
-                    alert('Por favor, clique no mapa para fazer seu palpite!');
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Atenção!',
+                        text: 'Por favor, clique no mapa para fazer seu palpite!',
+                        confirmButtonColor: '#007bff'
+                    });
                     return;
                 }
 
@@ -347,16 +392,19 @@
                 
                 let message = `Distância: ${distance.toFixed(2)} km`;
                 let title = 'Resultado do Palpite';
+                let icon = 'info';
                 
                 if (distance <= 10) {
                     // Acertou!
                     title = 'Parabéns! 🎉';
+                    icon = 'success';
                     message += `\n\nVocê acertou! A localização era: ${currentLocation.name}`;
                     message += `\n\nPontuação final: ${score} pontos`;
                     endRound(true);
                 } else {
                     // Errou
                     score = Math.max(0, score - 200);
+                    icon = 'error';
                     
                     if (attempts > 0) {
                         const direction = getDirection(currentLocation, userGuess);
@@ -373,8 +421,15 @@
                     }
                 }
                 
-                showPopup(title, message);
-                hideMap();
+                Swal.fire({
+                    icon: icon,
+                    title: title,
+                    text: message,
+                    confirmButtonColor: '#007bff',
+                    allowOutsideClick: false
+                });
+                
+                // NÃO fechar o slider automaticamente - usuário pode continuar vendo o mapa
                 updateUI();
             }
 
@@ -423,24 +478,40 @@
                 round++;
                 gameActive = true;
                 
-                document.getElementById('newGameBtn').style.display = 'none';
-                document.getElementById('finalNewGameBtn').style.display = 'none';
-                document.getElementById('continueBtn').style.display = 'inline-block';
-                
                 hidePopup();
                 startNewRound();
             }
 
+            function showHelpMessage() {
+                const messages = [
+                    "Ajude-me a encontrar onde estou no mapa! 🗺️",
+                    "Estou perdido! Você pode me ajudar a descobrir minha localização? 🤔",
+                    "Olhe ao redor e tente descobrir onde estou! 🔍",
+                    "Use as pistas visuais para me encontrar no mapa! 👀",
+                    "Preciso da sua ajuda para descobrir onde estou! 🆘"
+                ];
+                
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                
+                Swal.fire({
+                    icon: 'question',
+                    title: 'Preciso de Ajuda! 🤔',
+                    text: randomMessage,
+                    confirmButtonText: 'Vou te ajudar!',
+                    confirmButtonColor: '#28a745',
+                    background: '#fff',
+                    iconColor: '#ffc107'
+                });
+            }
+
             function showPopup(title, message) {
-                document.getElementById('popupTitle').textContent = title;
-                document.getElementById('popupMessage').textContent = message;
-                document.getElementById('popup').classList.add('active');
-                document.getElementById('overlay').classList.add('active');
+                // Função mantida para compatibilidade, mas não é mais usada
+                console.log('showPopup chamada:', title, message);
             }
 
             function hidePopup() {
-                document.getElementById('popup').classList.remove('active');
-                document.getElementById('overlay').classList.remove('active');
+                // Função mantida para compatibilidade
+                console.log('hidePopup chamada');
             }
 
             function updateUI() {
