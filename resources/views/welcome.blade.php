@@ -1,5 +1,7 @@
 @extends('layouts.app')
+
 @section('title', 'Gincaneiros - Jogo de Localização')
+
 @section('content')
 <div class="game-container">
     <!-- Informações do jogo -->
@@ -8,13 +10,16 @@
         <div><strong>Tentativas:</strong> <span id="attempts">5</span></div>
         <div><strong>Rodada:</strong> <span id="round">1</span></div>
     </div>
+
     <!-- Container do Street View -->
     <div id="streetview" class="street-view-container"></div>
+
     <!-- Controles do jogo -->
     <div class="game-controls">
         <button id="showMapBtn" class="btn">Ver Mapa</button>
         <button id="newGameBtn" class="btn btn-success" style="display: none;">Novo Jogo</button>
     </div>
+
     <!-- Slider do mapa -->
     <div id="mapSlider" class="map-slider">
         <button id="closeMapBtn" class="close-btn">✕</button>
@@ -23,6 +28,7 @@
             <button id="confirmGuessBtn" class="btn btn-success">Confirmar Palpite</button>
         </div>
     </div>
+
     <!-- Popup de feedback -->
     <div id="overlay" class="overlay"></div>
     <div id="popup" class="popup">

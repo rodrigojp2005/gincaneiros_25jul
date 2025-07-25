@@ -205,8 +205,17 @@ function updateUI() {
     document.getElementById('attempts').textContent = attempts;
     document.getElementById('round').textContent = round;
 }
-window.onload = function() {
-    if (typeof google !== 'undefined') {
-        initGame();
-    }
-};
+// window.onload = function() {
+//     if (typeof google !== 'undefined') {
+//         initGame();
+//     }
+// };
+
+window.addEventListener("load", () => {
+    const waitForGoogle = setInterval(() => {
+        if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
+            clearInterval(waitForGoogle);
+            initGame();
+        }
+    }, 100);
+});
