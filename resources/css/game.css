@@ -1,0 +1,155 @@
+/* Estilos do jogo extraídos do welcome.blade.php */
+.game-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+.street-view-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.map-slider {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 50%;
+    height: 100%;
+    background: white;
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.3);
+}
+.map-slider.active {
+    right: 0;
+}
+.map-container {
+    width: 100%;
+    height: calc(100% - 120px);
+    margin-top: 60px;
+}
+.game-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+.slider-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.game-info {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255,255,255,0.9);
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 100;
+}
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 2000;
+    display: none;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+.popup.active {
+    display: block;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1999;
+    display: none;
+}
+.overlay.active {
+    display: block;
+}
+.btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+}
+.btn:hover {
+    background: #0056b3;
+}
+.btn-success {
+    background: #28a745;
+}
+.btn-success:hover {
+    background: #1e7e34;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    z-index: 50;
+}
+.help-emoji {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    cursor: pointer;
+    z-index: 200;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+.help-emoji:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+@keyframes pulse {
+    0% { box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 4px 25px rgba(255,193,7,0.6); }
+    100% { box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+}
