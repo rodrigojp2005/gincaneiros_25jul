@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container" style="max-width: 800px; margin: 10px auto 0 auto;">
-    <h2 style="margin-bottom: 18px; font-weight: 600; color: #198754; font-size: 2rem;">Lista de Gincanas</h2>
+    <h2 style="margin-bottom: 18px; font-weight: 600; color: #198754; font-size: 2rem;">Lista de Gincanas Criadas</h2>
     @if($gincanas->isEmpty())
         <p style="margin-top: 24px;">Nenhuma gincana cadastrada.</p>
     @else

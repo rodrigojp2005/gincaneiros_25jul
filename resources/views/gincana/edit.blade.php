@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
-<div id="form_container" style="max-width: 600px; margin: 60px auto 0 auto; padding: 20px;">
-    <h2 style="margin-bottom: 18px;">Editar Gincana</h2>
+<div id="form_container" style="max-width: 600px; margin: 24px auto 0 auto; padding: 28px 24px 22px 24px; background: #eafaf1; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07);">
+    <h2 style="margin-bottom: 22px; text-align: center; font-weight: 700; color: #198754; font-size: 2rem; letter-spacing: 0.5px;">Editar Gincana</h2>
     <form id="form-editar-gincana" method="POST" action="{{ route('gincana.update', $gincana) }}">
         @csrf
         @method('PUT')
@@ -54,20 +54,20 @@
             </div>
         </div>
         <!-- Botões -->
-        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-            <button type="submit" style="padding: 10px 20px; background-color: #198754; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 18px;">
+            <button type="submit" style="padding: 10px 28px; background-color: #198754; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1.08em;">
                 Salvar Alterações
             </button>
-            <a href="{{ route('gincana.index') }}" style="padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; display: inline-block;">
+            <a href="{{ route('gincana.index') }}" style="padding: 10px 28px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: 600; font-size: 1.08em;">
                 Cancelar
             </a>
         </div>
     </form>
-    <form method="POST" action="{{ route('gincana.destroy', $gincana) }}" style="margin-top: 20px;">
+    <!-- <form method="POST" action="{{ route('gincana.destroy', $gincana) }}" style="margin-top: 24px; text-align: center;">
         @csrf
         @method('DELETE')
-        <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir esta gincana?')">Excluir Gincana</button>
-    </form>
+        <button type="submit" class="btn btn-danger" style="padding: 10px 28px; background-color: #dc3545; color: white; border: none; border-radius: 4px; font-weight: 600; font-size: 1.08em;" onclick="return confirm('Tem certeza que deseja excluir esta gincana?')">Excluir Gincana</button>
+    </form> -->
 </div>
 @endsection
 <script>
