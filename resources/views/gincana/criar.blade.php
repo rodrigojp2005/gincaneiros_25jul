@@ -25,7 +25,7 @@
         <div style="margin-bottom: 16px; display: flex; gap: 16px;">
             <div style="flex: 2;">
                 <label style="display: block; font-weight: bold; margin-bottom: 6px;">Escolha o local do personagem perdido</label>
-                <div id="map" style="height: 300px; width: 100%; border: 1px solid #ccc; border-radius: 4px;"></div>
+                <div id="map-criar" style="height: 300px; width: 100%; border: 1px solid #ccc; border-radius: 4px;"></div>
                 <input type="hidden" id="latitude" name="latitude">
                 <input type="hidden" id="longitude" name="longitude">
             </div>
@@ -85,7 +85,7 @@
 
     function initMap() {
         const defaultLocation = { lat: -23.55052, lng: -46.633308 }; // São Paulo como exemplo
-        map = new google.maps.Map(document.getElementById('map'), {
+        map = new google.maps.Map(document.getElementById('map-criar'), {
             center: defaultLocation,
             zoom: 12
         });
