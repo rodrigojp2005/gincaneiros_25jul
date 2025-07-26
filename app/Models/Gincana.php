@@ -17,4 +17,9 @@ class Gincana extends Model
         'contexto',
         'privacidade',
     ];
+
+     public function locais()
+    {
+        return $this->hasMany(GincanaLocal::class);
+    }
 }

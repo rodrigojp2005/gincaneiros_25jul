@@ -68,6 +68,7 @@ class GincanaController extends Controller
     // Exibe detalhes de uma gincana
     public function show(Gincana $gincana)
     {
-        return view('gincana.show', compact('gincana'));
+        $locais = $gincana->locais()->get(['latitude', 'longitude']);
+        return view('gincana.show', compact('gincana', 'locais'));
     }
 }

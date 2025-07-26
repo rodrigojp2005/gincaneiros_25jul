@@ -6,16 +6,7 @@ let round = 1;
 let gameActive = true;
 
 const locations = [
-    { lat: -22.9068, lng: -43.1729, name: "Cristo Redentor, Rio de Janeiro" },
-    { lat: -23.5505, lng: -46.6333, name: "Centro de São Paulo" },
-    { lat: -15.7801, lng: -47.9292, name: "Brasília, DF" },
-    { lat: -12.9714, lng: -38.5014, name: "Salvador, BA" },
-    { lat: -25.4284, lng: -49.2733, name: "Curitiba, PR" },
-    { lat: -19.9167, lng: -43.9345, name: "Belo Horizonte, MG" },
-    { lat: -8.0476, lng: -34.8770, name: "Recife, PE" },
-    { lat: -3.1190, lng: -60.0217, name: "Manaus, AM" },
-    { lat: -27.5954, lng: -48.5480, name: "Florianópolis, SC" },
-    { lat: -1.4558, lng: -48.4902, name: "Belém, PA" }
+    { lat: -22.9068, lng: -43.1729, name: "Cristo Redentor, Rio de Janeiro" }
 ];
 
 window.initGame = function() {
