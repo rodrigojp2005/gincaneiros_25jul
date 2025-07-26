@@ -64,8 +64,8 @@
         </div>
 
         <!-- Mobile menu overlay -->
-        <div id="mobile-menu" class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40 hidden">
-            <div class="fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform translate-x-full transition-transform duration-300" id="mobile-menu-panel">
+        <div id="mobile-menu" class="md:hidden fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 99999 !important;">
+            <div class="fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform translate-x-full transition-transform duration-300" id="mobile-menu-panel" style="z-index: 100000 !important;">
                 <div class="p-4 border-b border-gray-200">
                     <button id="mobile-menu-close" class="float-right text-gray-600 hover:text-gray-800">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,63 +116,36 @@
                 </div>
                 @else
                 <div class="p-4 space-y-4">
-                    <a href="{{ route('login') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md transition-all duration-200">
-                        Entrar
+                    <a href="#" onclick="event.preventDefault(); mostrarComoJogar()" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md transition-all duration-200">
+                        Como Jogar
                     </a>
-                    <a href="{{ route('register') }}" class="block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all duration-200 text-center">
-                        Registrar
+                    <a href="#" onclick="event.preventDefault(); mostrarSobreJogo()" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md transition-all duration-200">
+                        Sobre
                     </a>
+                    
+                    <div class="border-t border-gray-200 pt-4 mt-4">
+                        <a href="{{ route('login') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md transition-all duration-200">
+                            Entrar
+                        </a>
+                        <a href="{{ route('register') }}" class="block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all duration-200 text-center">
+                            Registrar
+                        </a>
+                    </div>
                 </div>
                 @endauth
             </div>
         </div>
     </nav>
 
-    @auth
+    <!-- Scripts globais para todos os usuários -->
     <script>
-    // Mobile menu functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileMenuPanel = document.getElementById('mobile-menu-panel');
-        const mobileMenuClose = document.getElementById('mobile-menu-close');
-
-        function openMobileMenu() {
-            mobileMenu.classList.remove('hidden');
-            setTimeout(() => {
-                mobileMenuPanel.classList.remove('translate-x-full');
-            }, 10);
-        }
-
-        function closeMobileMenu() {
-            mobileMenuPanel.classList.add('translate-x-full');
-            setTimeout(() => {
-                mobileMenu.classList.add('hidden');
-            }, 300);
-        }
-
-        mobileMenuBtn?.addEventListener('click', openMobileMenu);
-        mobileMenuClose?.addEventListener('click', closeMobileMenu);
-        mobileMenu?.addEventListener('click', function(e) {
-            if (e.target === mobileMenu) {
-                closeMobileMenu();
-            }
-        });
-
-        // Close mobile menu on window resize to desktop
-        window.addEventListener('resize', function() {
-            if (window.innerWidth >= 768) {
-                closeMobileMenu();
-            }
-        });
-    });
-
+    // Funções SweetAlert - funcionam para todos os usuários
     function mostrarComoJogar() {
         Swal.fire({
             title: 'Como Jogar',
             html: `
                 <div class="text-left">
-                    <h4 class="font-bold mb-2">🎯 Objetivo do Jogo</h4>
+                    <h4 class="font-bold mb-2">🎯 Objetivo do Jogo:</h4>
                     <p class="mb-3">Descubra onde você está no mundo usando apenas as imagens do Street View!</p>
                     
                     <h4 class="font-bold mb-2">🎮 Como Jogar</h4>
@@ -233,5 +206,45 @@
         });
     }
     </script>
-    @endauth
+
+
+
+    <script>
+    // Mobile menu functionality - funciona para todos os usuários
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuPanel = document.getElementById('mobile-menu-panel');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+        function openMobileMenu() {
+            mobileMenu?.classList.remove('hidden');
+            setTimeout(() => {
+                mobileMenuPanel?.classList.remove('translate-x-full');
+            }, 10);
+        }
+
+        function closeMobileMenu() {
+            mobileMenuPanel?.classList.add('translate-x-full');
+            setTimeout(() => {
+                mobileMenu?.classList.add('hidden');
+            }, 300);
+        }
+
+        mobileMenuBtn?.addEventListener('click', openMobileMenu);
+        mobileMenuClose?.addEventListener('click', closeMobileMenu);
+        mobileMenu?.addEventListener('click', function(e) {
+            if (e.target === mobileMenu) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close mobile menu on window resize to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) {
+                closeMobileMenu();
+            }
+        });
+    });
+    </script>
 @endif

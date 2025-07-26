@@ -22,7 +22,7 @@
 
 </head>
 <body class="bg-gray-100 font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-100 flex flex-col">
         @include('layouts.navigation')
         <!-- Page Heading -->
         @isset($header)
@@ -33,7 +33,7 @@
             </header>
         @endisset
         <!-- Page Content -->
-        <main>
+        <main class="flex-1">
             @yield('content')
         </main>
         @include('layouts.footer')
