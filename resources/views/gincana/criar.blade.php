@@ -127,26 +127,30 @@
         geocoder.geocode({ address: endereco }, function (results, status) {
             if (status === 'OK') {
                 const location = results[0].geometry.location;
-                map.setCenter(location);
-                map.setZoom(14);
-                // Remove marcador antigo, se existir
-                if (marker) {
-                    marker.setMap(null);
-                }
-                // Cria novo marcador
-                marker = new google.maps.Marker({
-                    position: location,
-                    map: map,
-                    draggable: true
-                });
-                document.getElementById('latitude').value = location.lat();
-                document.getElementById('longitude').value = location.lng();
-                feedback.textContent = 'Endereço encontrado: ' + results[0].formatted_address;
-                feedback.style.color = '#198754';
-                // Atualiza campos ao arrastar novo marcador
-                marker.addListener('dragend', function() {
-                    document.getElementById('latitude').value = marker.getPosition().lat();
-                    document.getElementById('longitude').value = marker.getPosition().lng();
+                // Verifica panorama do Street View
+                const streetViewService = new google.maps.StreetViewService();
+                streetViewService.getPanorama({ location: location, radius: 50 }, function(data, svStatus) {
+                    if (svStatus === 'OK') {
+                        map.setCenter(location);
+                        map.setZoom(14);
+                        if (marker) marker.setMap(null);
+                        marker = new google.maps.Marker({
+                            position: location,
+                            map: map,
+                            draggable: true
+                        });
+                        document.getElementById('latitude').value = location.lat();
+                        document.getElementById('longitude').value = location.lng();
+                        feedback.textContent = 'Endereço encontrado: ' + results[0].formatted_address;
+                        feedback.style.color = '#198754';
+                        marker.addListener('dragend', function() {
+                            document.getElementById('latitude').value = marker.getPosition().lat();
+                            document.getElementById('longitude').value = marker.getPosition().lng();
+                        });
+                    } else {
+                        feedback.textContent = 'Este local não possui imagens do Street View!';
+                        feedback.style.color = '#dc3545';
+                    }
                 });
             } else {
                 feedback.textContent = 'Local não encontrado.';
