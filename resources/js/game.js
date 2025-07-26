@@ -27,7 +27,7 @@ window.initGame = function() {
 
 function initializeMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 6,
+        zoom: 4,
         center: { lat: -14.2350, lng: -51.9253 },
         mapTypeId: 'roadmap'
     });
