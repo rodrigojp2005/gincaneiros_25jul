@@ -40,4 +40,9 @@
         <button id="finalNewGameBtn" class="btn btn-success" style="display: none;">Novo Jogo</button>
     </div>
 </div>
+
+<script>
+    // Passar os locais do backend para o JavaScript
+    window.gameLocations = @json($locations);
+</script>
 @endsection

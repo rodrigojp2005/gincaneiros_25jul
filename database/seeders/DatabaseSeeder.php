@@ -19,5 +19,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Adicionar seeder das gincanas
+        $this->call([
+            GincanaSeeder::class,
+        ]);
     }
 }

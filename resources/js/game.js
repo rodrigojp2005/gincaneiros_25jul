@@ -4,12 +4,25 @@ let score = 1000;
 let attempts = 5;
 let round = 1;
 let gameActive = true;
+let locations = [];
 
-const locations = [
-    { lat: -22.9068, lng: -43.1729, name: "Cristo Redentor, Rio de Janeiro" }
+// Locais padrão caso não haja dados no backend
+const defaultLocations = [
+    { lat: -22.9068, lng: -43.1729, name: "Cristo Redentor, Rio de Janeiro" },
+    { lat: -22.9519, lng: -43.2105, name: "Copacabana, Rio de Janeiro" },
+    { lat: -23.5505, lng: -46.6333, name: "São Paulo, SP" },
+    { lat: -15.7942, lng: -47.8822, name: "Brasília, DF" },
+    { lat: -12.9714, lng: -38.5014, name: "Salvador, BA" }
 ];
 
 window.initGame = function() {
+    // Usar locais do backend ou locais padrão
+    locations = window.gameLocations && window.gameLocations.length > 0 
+                ? window.gameLocations 
+                : defaultLocations;
+    
+    console.log('Locais carregados:', locations);
+    
     initializeMap();
     initializeStreetView();
     setupEventListeners();
@@ -65,7 +78,15 @@ function setupEventListeners() {
 }
 
 function startNewRound() {
+    // Selecionar um local aleatório dos locais disponíveis
+    if (locations.length === 0) {
+        console.error('Nenhum local disponível para o jogo');
+        return;
+    }
+    
     currentLocation = locations[Math.floor(Math.random() * locations.length)];
+    console.log('Local atual:', currentLocation);
+    
     streetView.setPosition(currentLocation);
     if (window.userMarker) {
         window.userMarker.setMap(null);
