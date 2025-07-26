@@ -22,12 +22,18 @@
         </div>
 
         <!-- Mapa do Google Maps -->
-        <div style="margin-bottom: 16px;">
-            <label style="display: block; font-weight: bold; margin-bottom: 6px;">Escolha o local do personagem perdido</label>
-            <div id="map" style="height: 300px; width: 100%; border: 1px solid #ccc; border-radius: 4px;"></div>
-            <input type="hidden" id="latitude" name="latitude">
-            <input type="hidden" id="longitude" name="longitude">
-        </div>
+        <div style="margin-bottom: 16px; display: flex; gap: 16px;">
+            <div style="flex: 2;">
+                <label style="display: block; font-weight: bold; margin-bottom: 6px;">Escolha o local do personagem perdido</label>
+                <div id="map" style="height: 300px; width: 100%; border: 1px solid #ccc; border-radius: 4px;"></div>
+                <input type="hidden" id="latitude" name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
+            </div>
+            <div style="flex: 1;">
+                <label style="display: block; font-weight: bold; margin-bottom: 6px;">Street View</label>
+                <div id="street-view" style="height: 300px; width: 100%; border: 1px solid #ccc; border-radius: 4px;"></div>
+            </div>
+        </div
 
         <!-- Campo de Cidade -->
         <div style="margin-bottom: 16px;">
@@ -85,7 +91,7 @@
         });
 
         geocoder = new google.maps.Geocoder();
-       
+
         // Cria o marcador no mapa
         marker = new google.maps.Marker({
             position: defaultLocation,
@@ -93,7 +99,6 @@
             draggable: true
         });
 
-        // Atualiza campos hidden ao mover o marcador
         function updateLatLngFields(position) {
             document.getElementById('latitude').value = position.lat();
             document.getElementById('longitude').value = position.lng();
@@ -103,11 +108,13 @@
 
         marker.addListener('dragend', function() {
             updateLatLngFields(marker.getPosition());
+            atualizarStreetView(marker.getPosition());
         });
 
         map.addListener('click', function(event) {
             marker.setPosition(event.latLng);
             updateLatLngFields(event.latLng);
+            atualizarStreetView(event.latLng);
         });
     }
 
@@ -127,31 +134,15 @@
         geocoder.geocode({ address: endereco }, function (results, status) {
             if (status === 'OK') {
                 const location = results[0].geometry.location;
-                // Verifica panorama do Street View
-                const streetViewService = new google.maps.StreetViewService();
-                streetViewService.getPanorama({ location: location, radius: 50 }, function(data, svStatus) {
-                    if (svStatus === 'OK') {
-                        map.setCenter(location);
-                        map.setZoom(14);
-                        if (marker) marker.setMap(null);
-                        marker = new google.maps.Marker({
-                            position: location,
-                            map: map,
-                            draggable: true
-                        });
-                        document.getElementById('latitude').value = location.lat();
-                        document.getElementById('longitude').value = location.lng();
-                        feedback.textContent = 'Endereço encontrado: ' + results[0].formatted_address;
-                        feedback.style.color = '#198754';
-                        marker.addListener('dragend', function() {
-                            document.getElementById('latitude').value = marker.getPosition().lat();
-                            document.getElementById('longitude').value = marker.getPosition().lng();
-                        });
-                    } else {
-                        feedback.textContent = 'Este local não possui imagens do Street View!';
-                        feedback.style.color = '#dc3545';
-                    }
-                });
+                // Centraliza o mapa e move o pino
+                map.panTo(location);
+                map.setZoom(16);
+                marker.setPosition(location);
+                document.getElementById('latitude').value = location.lat();
+                document.getElementById('longitude').value = location.lng();
+                feedback.textContent = 'Endereço encontrado: ' + results[0].formatted_address;
+                feedback.style.color = '#198754';
+                atualizarStreetView(location);
             } else {
                 feedback.textContent = 'Local não encontrado.';
                 feedback.style.color = '#dc3545';
@@ -159,7 +150,28 @@
         });
     }
 
+    function atualizarStreetView(location) {
+        const streetViewService = new google.maps.StreetViewService();
+        streetViewService.getPanorama({ location: location, radius: 50 }, function(data, svStatus) {
+            if (svStatus === 'OK') {
+                const panorama = new google.maps.StreetViewPanorama(
+                    document.getElementById('street-view'), {
+                        position: location,
+                        pov: { heading: 165, pitch: 0 },
+                        zoom: 1
+                    }
+                );
+            } else {
+                document.getElementById('street-view').innerHTML = '<div style="color: #dc3545; padding: 12px;">Este local não possui imagens do Street View!</div>';
+            }
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         initMap();
+        // Aguarda o mapa e o marcador estarem prontos antes de atualizar o Street View
+        setTimeout(function() {
+            atualizarStreetView(marker.getPosition());
+        }, 500);
     });
 </script>
