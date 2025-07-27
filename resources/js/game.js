@@ -82,8 +82,6 @@ function setupEventListeners() {
     
     document.getElementById('confirmGuessBtn').addEventListener('click', confirmGuess);
     document.getElementById('continueBtn').addEventListener('click', hidePopup);
-    document.getElementById('newGameBtn').addEventListener('click', newGame);
-    document.getElementById('finalNewGameBtn').addEventListener('click', newGame);
     document.getElementById('overlay').addEventListener('click', hidePopup);
 }
 
@@ -143,6 +141,10 @@ function showMap() {
 function hideMap() {
     document.getElementById('mapSlider').classList.remove('active');
 }
+
+function closeMapSlider() {
+    document.getElementById('mapSlider').classList.remove('active');
+}
 function confirmGuess() {
     if (!userGuess) {
         Swal.fire({
@@ -170,6 +172,21 @@ function confirmGuess() {
         saveScoreToDatabase(score, currentLocation);
         
         endRound(true);
+        
+        // Mostrar SweetAlert com botão "Novo Jogo" e reload da página
+        Swal.fire({
+            icon: icon,
+            title: title,
+            text: message,
+            confirmButtonText: 'Novo Jogo',
+            confirmButtonColor: '#007bff',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                closeMapSlider();
+                location.reload();
+            }
+        });
     } else {
         score = Math.max(0, score - 200);
         icon = 'error';
@@ -178,6 +195,15 @@ function confirmGuess() {
             message += `\n\nDireção: ${direction}`;
             message += `\n\nTentativas restantes: ${attempts}`;
             message += `\n\nPontuação atual: ${score}`;
+            
+            // Para tentativas restantes, manter comportamento normal
+            Swal.fire({
+                icon: icon,
+                title: title,
+                text: message,
+                confirmButtonColor: '#007bff',
+                allowOutsideClick: false
+            });
         } else {
             title = 'Fim de Jogo';
             message += `\n\nSuas tentativas acabaram!`;
@@ -188,16 +214,23 @@ function confirmGuess() {
             saveScoreToDatabase(score, currentLocation);
             
             endRound(false);
+            
+            // Mostrar SweetAlert com botão "Novo Jogo" e reload da página
+            Swal.fire({
+                icon: icon,
+                title: title,
+                text: message,
+                confirmButtonText: 'Novo Jogo',
+                confirmButtonColor: '#007bff',
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    closeMapSlider();
+                    location.reload();
+                }
+            });
         }
     }
-    
-    Swal.fire({
-        icon: icon,
-        title: title,
-        text: message,
-        confirmButtonColor: '#007bff',
-        allowOutsideClick: false
-    });
     
     updateUI();
 }
@@ -228,9 +261,6 @@ function endRound(won) {
         title: 'Localização correta',
         icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
     });
-    document.getElementById('newGameBtn').style.display = 'inline-block';
-    document.getElementById('finalNewGameBtn').style.display = 'inline-block';
-    document.getElementById('continueBtn').style.display = 'none';
 }
 function newGame() {
     score = 1000;

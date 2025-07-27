@@ -27,8 +27,22 @@
 
     <!-- Controles do jogo -->
     <div class="game-controls">
-        <button id="showMapBtn" class="btn">Ver Mapa</button>
-        <button id="newGameBtn" class="btn btn-success" style="display: none;">Novo Jogo</button>
+        <div style="display: flex; justify-content: center; align-items: center; width: 100%; padding: 10px 0;">
+            <button id="showMapBtn" class="btn" style="padding: 0; border: none; background: none; width: 100%; max-width: 220px;">
+            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjFnOGtlcnl5dmpveGJydTNxb2twNGxudXB3Nm8wMjNlMnI2bDBrZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/PrfN2Hqu24ln2eAaOS/giphy.gif" alt="JOGAR" style="width: 100%; height: auto; max-width: 180px; max-height: 120px; display: block; margin: 0 auto;">
+            </button>
+        </div>
+        <style>
+            @media (max-width: 600px) {
+            #showMapBtn img {
+                max-width: 100%;
+                max-height: 80px;
+            }
+            .game-controls > div {
+                padding: 0 5px;
+            }
+            }
+        </style>
         
         <!-- Controles condicionais baseados no status de autenticação -->
         @auth
@@ -78,7 +92,6 @@
         <h3 id="popupTitle">Resultado</h3>
         <p id="popupMessage"></p>
         <button id="continueBtn" class="btn">Continuar</button>
-        <button id="finalNewGameBtn" class="btn btn-success" style="display: none;">Novo Jogo</button>
     </div>
 </div>
 
