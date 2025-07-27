@@ -6,7 +6,7 @@
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="text-4xl font-bold text-gray-900 mb-4">
-                🎮 Gincanas Jogadas
+                🎮 Gincanas Jogadas!
             </h1>
             <p class="text-lg text-gray-600 max-w-2xl mx-auto">
                 Aqui estão todas as gincanas que você participou. Clique em uma gincana para ver o ranking!
@@ -24,7 +24,8 @@
                 <div class="bg-white rounded-xl shadow-lg p-6 text-center">
                     <div class="text-3xl font-bold text-green-600">
                         {{ $gincanasJogadas->filter(function($gincana) {
-                            return $gincana->participacoes->first()->status === 'concluida';
+                            $participacao = $gincana->participacoes->first();
+                            return $participacao && $participacao->status === 'concluida';
                         })->count() }}
                     </div>
                     <div class="text-gray-600 mt-2">Concluídas</div>
@@ -33,7 +34,8 @@
                 <div class="bg-white rounded-xl shadow-lg p-6 text-center">
                     <div class="text-3xl font-bold text-orange-600">
                         {{ $gincanasJogadas->filter(function($gincana) {
-                            return $gincana->participacoes->first()->status === 'em_progresso';
+                            $participacao = $gincana->participacoes->first();
+                            return $participacao && $participacao->status === 'em_progresso';
                         })->count() }}
                     </div>
                     <div class="text-gray-600 mt-2">Em Progresso</div>
@@ -44,8 +46,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($gincanasJogadas as $gincana)
                     @php
-                        $participacao = $gincana->participacoes->first();
-                        $isCompleted = $participacao->status === 'concluida';
+                        // Buscar a primeira (ou melhor) participação
+                        $participacao = $gincana->participacoes->sortByDesc('pontuacao')->first();
+                        $isCompleted = $participacao && $participacao->status === 'concluida';
                         $statusColor = $isCompleted ? 'green' : 'orange';
                         $statusText = $isCompleted ? 'Concluída' : 'Em Progresso';
                         $statusIcon = $isCompleted ? '✅' : '⏳';
@@ -82,11 +85,11 @@
 
                             <!-- Stats -->
                             <div class="space-y-2 mb-4">
-                                @if($isCompleted)
+                                @if($isCompleted && $participacao)
                                     <div class="flex justify-between">
                                         <span class="text-sm text-gray-600">Pontuação:</span>
                                         <span class="text-sm font-medium text-green-600">
-                                            {{ number_format($participacao->pontuacao, 0) }} pts
+                                            {{ number_format($participacao->pontuacao ?? 0, 0) }} pts
                                         </span>
                                     </div>
                                     
@@ -98,7 +101,7 @@
                                             </span>
                                         </div>
                                     @endif
-                                @else
+                                @elseif($participacao)
                                     <div class="flex justify-between">
                                         <span class="text-sm text-gray-600">Locais visitados:</span>
                                         <span class="text-sm font-medium text-orange-600">

@@ -77,19 +77,25 @@ class GincanaController extends Controller
     // Lista as gincanas que o usuário jogou (participou)
     public function jogadas()
     {
-        // Gincanas que o usuário já jogou
-        $gincanasJogadas = Auth::user()->gincanasParticipando()
-            ->with(['user', 'participacoes' => function($query) {
-                $query->where('user_id', Auth::id());
-            }])
-            ->whereHas('user') // Garante que só carrega gincanas com usuário válido
+        $userId = Auth::id();
+        
+        // Método mais direto: buscar participações e então carregar as gincanas
+        $participacoes = \App\Models\Participacao::where('user_id', $userId)
+            ->with(['gincana.user'])
             ->get();
+        
+        // Agrupar por gincana (caso o usuário tenha jogado a mesma gincana várias vezes)
+        $gincanasJogadas = $participacoes->groupBy('gincana_id')->map(function($group) {
+            $gincana = $group->first()->gincana;
+            $gincana->participacoes = $group; // Adicionar as participações
+            return $gincana;
+        })->values();
 
         // Gincanas públicas disponíveis que o usuário ainda não jogou
         $gincanasDisponiveis = Gincana::where('privacidade', 'publica')
-            ->where('user_id', '!=', Auth::id()) // Não incluir as próprias gincanas
-            ->whereDoesntHave('participacoes', function($query) {
-                $query->where('user_id', Auth::id());
+            ->where('user_id', '!=', $userId) // Não incluir as próprias gincanas
+            ->whereDoesntHave('participacoes', function($query) use ($userId) {
+                $query->where('user_id', $userId);
             })
             ->with('user')
             ->whereHas('user')

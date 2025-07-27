@@ -75,6 +75,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/gincana', [GincanaController::class, 'store'])->name('gincana.store');
     Route::get('/gincana', [GincanaController::class, 'index'])->name('gincana.index');
     Route::get('/gincana/jogadas', [GincanaController::class, 'jogadas'])->name('gincana.jogadas');
+    Route::get('/gincana/debug', function() {
+        $userId = Auth::id();
+        $participacoes = \App\Models\Participacao::where('user_id', $userId)->get();
+        $gincanasJogadas = Auth::user()->gincanasParticipando()->get();
+        
+        return response()->json([
+            'user_id' => $userId,
+            'participacoes_count' => $participacoes->count(),
+            'participacoes' => $participacoes->toArray(),
+            'gincanas_jogadas_count' => $gincanasJogadas->count(),
+            'gincanas_jogadas' => $gincanasJogadas->toArray()
+        ]);
+    })->name('gincana.debug');
     Route::get('/gincana/{gincana}', [GincanaController::class, 'show'])->name('gincana.show');
     Route::get('/gincana/{gincana}/jogar', [GincanaController::class, 'jogar'])->name('gincana.jogar');
     Route::get('/gincana/{gincana}/edit', [GincanaController::class, 'edit'])->name('gincana.edit');
