@@ -5,7 +5,8 @@ use App\Models\GincanaLocal;
 use App\Models\Gincana;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+// Função para carregar locais de jogo
+function getGameLocations() {
     $locations = [];
     
     // 1. Buscar locais principais das gincanas públicas criadas pelos usuários
@@ -42,47 +43,19 @@ Route::get('/', function () {
         ];
     }
     
+    return $locations;
+}
+
+// Rota principal - funciona para visitantes e usuários logados
+Route::get('/', function () {
+    $locations = getGameLocations();
     return view('welcome', compact('locations'));
 });
 
+// Rota dashboard - redirecionada para a página principal unificada
 Route::get('/dashboard', function () {
-    $locations = [];
-    
-    // 1. Buscar locais principais das gincanas públicas criadas pelos usuários
-    $gincanas = Gincana::where('privacidade', 'publica')->get();
-    foreach ($gincanas as $gincana) {
-        $locations[] = [
-            'lat' => (float) $gincana->latitude,
-            'lng' => (float) $gincana->longitude,
-            'name' => $gincana->nome,
-            'gincana_id' => $gincana->id,
-            'contexto' => $gincana->contexto
-        ];
-    }
-    
-    // 2. Buscar locais adicionais das gincanas públicas (tabela gincana_locais)
-    $locaisAdicionais = GincanaLocal::whereHas('gincana', function($query) {
-        $query->where('privacidade', 'publica');
-    })->with('gincana')->get();
-    
-    foreach ($locaisAdicionais as $local) {
-        $locations[] = [
-            'lat' => (float) $local->latitude,
-            'lng' => (float) $local->longitude,
-            'name' => $local->gincana->nome . ' - Local Adicional',
-            'gincana_id' => $local->gincana_id,
-            'contexto' => $local->gincana->contexto
-        ];
-    }
-    
-    // Se não houver gincanas criadas pelos usuários, usar locais padrão
-    if (empty($locations)) {
-        $locations = [
-            ['lat' => -22.9068, 'lng' => -43.1729, 'name' => 'Cristo Redentor, Rio de Janeiro'] 
-        ];
-    }
-    
-    return view('dashboard', compact('locations'));
+    $locations = getGameLocations();
+    return view('welcome', compact('locations'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
