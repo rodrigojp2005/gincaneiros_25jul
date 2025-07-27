@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div id="form_container" style="max-width: 600px; margin: 24px auto 0 auto; padding: 28px 24px 22px 24px; background: #eafaf1; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07);">
-    <h2 style="margin-bottom: 22px; text-align: center; font-weight: 700; color: #198754; font-size: 2rem; letter-spacing: 0.5px;">Criar Nova Gincana</h2>
+    <h2 style="margin-bottom: 22px; text-align: center; font-weight: 700; color: #198754; font-size: 2rem; letter-spacing: 0.5px;">Criar Gincana</h2>
     <form id="form-criar-gincana" method="POST" action="{{ route('gincana.store') }}">
         @csrf
 
@@ -41,7 +41,7 @@
             <div style="display: flex; gap: 8px;">
                 <input type="text" id="cidade" placeholder="Digite a cidade ou endereço" style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" oninput="debouncedBuscarCidade()">
                 <button type="button" onclick="buscarCidade()" style="padding: 8px 12px; background-color: #0d6efd; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                    Buscar
+                    Confirmar
                 </button>
             </div>
             <div id="cidade-feedback" style="margin-top: 8px; color: #198754; font-size: 0.95em;"></div>

@@ -2,7 +2,9 @@
     <nav class="flex items-center justify-between p-4 bg-white shadow-md z-50 relative">
         <!-- Logo -->
         <div class="flex items-center">
-            <h1 class="text-xl font-bold text-blue-600">Gincaneiros</h1>
+            <a href="{{ url('/') }}" class="text-xl font-bold text-blue-600 hover:underline">
+            Gincaneiros
+            </a>
         </div>
         
         <!-- Lado direito: Saudação mobile + Menu button -->
@@ -24,7 +26,7 @@
         <div class="hidden md:flex items-center gap-6">
             @auth
                 <!-- Menu principal para usuários autenticados -->
-                <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('dashboard') ? 'text-gray-900 bg-gray-100 font-medium' : '' }}">
+                <a href="{{ route('home') }}" class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('home') ? 'text-gray-900 bg-gray-100 font-medium' : '' }}">
                     Jogar
                 </a>
                 
@@ -41,10 +43,10 @@
                             Criar Gincana
                         </a>
                         <a href="{{ route('gincana.index') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200 {{ request()->routeIs('gincana.index') ? 'text-gray-900 bg-gray-100' : '' }}">
-                            Minhas Gincanas
+                            Gincanas que Criei
                         </a>
                         <a href="{{ route('gincana.jogadas') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200 {{ request()->routeIs('gincana.jogadas') ? 'text-gray-900 bg-gray-100' : '' }}">
-                            Gincanas Jogadas
+                            Gincanas que Joguei
                         </a>
                     </div>
                 </div>
@@ -112,7 +114,7 @@
                 
                 @auth
                 <div class="p-4 space-y-4">
-                    <a href="{{ route('dashboard') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('dashboard') ? 'text-gray-900 bg-gray-100 font-medium' : '' }}">
+                    <a href="{{ route('home') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('home') ? 'text-gray-900 bg-gray-100 font-medium' : '' }}">
                         Jogar
                     </a>
                     
@@ -123,10 +125,10 @@
                             Criar Gincana
                         </a>
                         <a href="{{ route('gincana.index') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-6 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('gincana.index') ? 'text-gray-900 bg-gray-100' : '' }}">
-                            Minhas Gincanas
+                            Gincanas que Criei
                         </a>
                         <a href="{{ route('gincana.jogadas') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-6 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('gincana.jogadas') ? 'text-gray-900 bg-gray-100' : '' }}">
-                            Gincanas Jogadas
+                            Gincanas que Joguei
                         </a>
                     </div>
 

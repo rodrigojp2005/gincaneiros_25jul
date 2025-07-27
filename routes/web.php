@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\GincanaController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RankingController;
 use App\Models\GincanaLocal;
@@ -51,13 +53,7 @@ function getGameLocations() {
 Route::get('/', function () {
     $locations = getGameLocations();
     return view('welcome', compact('locations'));
-});
-
-// Rota dashboard - redirecionada para a página principal unificada
-Route::get('/dashboard', function () {
-    $locations = getGameLocations();
-    return view('welcome', compact('locations'));
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -65,10 +61,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
-
-use App\Http\Controllers\GincanaController;
-use App\Http\Controllers\GameController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/gincana/create', [GincanaController::class, 'create'])->name('gincana.create');
@@ -89,3 +81,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/ranking/{gincana}', [RankingController::class, 'show'])->name('ranking.show');
     Route::get('/ranking-geral', [RankingController::class, 'geral'])->name('ranking.geral');
 });
+
+require __DIR__.'/auth.php';
