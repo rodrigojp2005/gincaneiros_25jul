@@ -10,6 +10,7 @@ class Gincana extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'nome',
         'duracao',
         'latitude',
@@ -17,6 +18,11 @@ class Gincana extends Model
         'contexto',
         'privacidade',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
      public function locais()
     {

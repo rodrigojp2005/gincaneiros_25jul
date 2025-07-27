@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Gincana;
+use Illuminate\Support\Facades\Auth;
 
 class GincanaController extends Controller
 {
@@ -19,6 +20,7 @@ class GincanaController extends Controller
             'privacidade' => 'required|in:publica,privada',
         ]);
 
+        $validated['user_id'] = Auth::id();
         $gincana = Gincana::create($validated);
 
         return redirect()->route('gincana.index')->with('success', 'Gincana criada com sucesso!');
@@ -61,7 +63,7 @@ class GincanaController extends Controller
     // Exemplo de listagem (pode ser ajustado depois)
     public function index()
     {
-        $gincanas = Gincana::all();
+        $gincanas = Gincana::where('user_id', Auth::id())->get();
         return view('gincana.index', compact('gincanas'));
     }
 

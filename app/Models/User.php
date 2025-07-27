@@ -51,10 +51,15 @@ class User extends Authenticatable
         return $this->hasMany(Participacao::class);
     }
 
-    public function gincanas()
+    public function gincanasParticipando()
     {
         return $this->belongsToMany(Gincana::class, 'participacoes')
                     ->withPivot('pontuacao', 'status', 'tempo_total_segundos', 'locais_visitados')
                     ->withTimestamps();
+    }
+
+    public function gincanasCriadas()
+    {
+        return $this->hasMany(Gincana::class);
     }
 }

@@ -1,13 +1,24 @@
 @if (Route::has('login'))
     <nav class="flex items-center justify-between p-4 bg-white shadow-md z-50 relative">
-        <h1 class="text-xl font-bold text-blue-600">Gincaneiros</h1>
+        <!-- Logo -->
+        <div class="flex items-center">
+            <h1 class="text-xl font-bold text-blue-600">Gincaneiros</h1>
+        </div>
         
-        <!-- Mobile menu button -->
-        <button id="mobile-menu-btn" class="md:hidden text-gray-600 hover:text-gray-800 p-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-        </button>
+        <!-- Lado direito: Saudação mobile + Menu button -->
+        <div class="md:hidden flex items-center gap-2">
+            @auth
+                <!-- Saudação compacta para mobile -->
+                <span class="text-gray-600 text-xs">
+                    👋 Olá <strong class="text-gray-800">{{ Auth::user()->name }}</strong>
+                </span>
+            @endauth
+            <button id="mobile-menu-btn" class="text-gray-600 hover:text-gray-800 p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
 
         <!-- Desktop menu -->
         <div class="hidden md:flex items-center gap-6">
@@ -67,6 +78,12 @@
                 <!-- <a href="{{ route('profile.edit') }}" class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('profile.edit') ? 'text-gray-900 bg-gray-100 font-medium' : '' }}">
                     Perfil
                 </a> -->
+                
+                <!-- Saudação do usuário - próxima ao menu -->
+                <span class="text-gray-600 text-sm border-l border-gray-300 pl-4 ml-2">
+                    👋 Olá, <strong class="text-gray-800">{{ Auth::user()->name }}</strong>
+                </span>
+                
                 <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                     @csrf
                     <button type="submit" class="text-red-600 hover:text-red-800 hover:bg-red-50 px-3 py-2 rounded-md transition-all duration-200">
