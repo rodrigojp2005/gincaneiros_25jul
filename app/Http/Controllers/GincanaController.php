@@ -73,4 +73,16 @@ class GincanaController extends Controller
         $locais = $gincana->locais()->get(['latitude', 'longitude']);
         return view('gincana.show', compact('gincana', 'locais'));
     }
+
+    // Lista as gincanas que o usuário jogou (participou)
+    public function jogadas()
+    {
+        $gincanasJogadas = Auth::user()->gincanasParticipando()
+            ->with(['user', 'participacoes' => function($query) {
+                $query->where('user_id', Auth::id());
+            }])
+            ->get();
+        
+        return view('gincana.jogadas', compact('gincanasJogadas'));
+    }
 }

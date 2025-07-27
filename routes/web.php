@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/gincana/create', [GincanaController::class, 'create'])->name('gincana.create');
     Route::post('/gincana', [GincanaController::class, 'store'])->name('gincana.store');
     Route::get('/gincana', [GincanaController::class, 'index'])->name('gincana.index');
+    Route::get('/gincana/jogadas', [GincanaController::class, 'jogadas'])->name('gincana.jogadas');
     Route::get('/gincana/{gincana}', [GincanaController::class, 'show'])->name('gincana.show');
     Route::get('/gincana/{gincana}/edit', [GincanaController::class, 'edit'])->name('gincana.edit');
     Route::put('/gincana/{gincana}', [GincanaController::class, 'update'])->name('gincana.update');

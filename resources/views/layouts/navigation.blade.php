@@ -43,7 +43,7 @@
                         <a href="{{ route('gincana.index') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200 {{ request()->routeIs('gincana.index') ? 'text-gray-900 bg-gray-100' : '' }}">
                             Minhas Gincanas
                         </a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200" onclick="event.preventDefault(); /* TODO: implementar lista de gincanas jogadas */">
+                        <a href="{{ route('gincana.jogadas') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200 {{ request()->routeIs('gincana.jogadas') ? 'text-gray-900 bg-gray-100' : '' }}">
                             Gincanas Jogadas
                         </a>
                     </div>
@@ -125,7 +125,7 @@
                         <a href="{{ route('gincana.index') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-6 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('gincana.index') ? 'text-gray-900 bg-gray-100' : '' }}">
                             Minhas Gincanas
                         </a>
-                        <a href="#" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-6 py-2 rounded-md transition-all duration-200" onclick="event.preventDefault(); /* TODO: implementar lista de gincanas jogadas */">
+                        <a href="{{ route('gincana.jogadas') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-6 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('gincana.jogadas') ? 'text-gray-900 bg-gray-100' : '' }}">
                             Gincanas Jogadas
                         </a>
                     </div>
