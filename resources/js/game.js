@@ -73,7 +73,13 @@ function initializeStreetView() {
 function setupEventListeners() {
     document.getElementById('showMapBtn').addEventListener('click', showMap);
     document.getElementById('closeMapBtn').addEventListener('click', hideMap);
-    document.getElementById('cancelGuessBtn').addEventListener('click', hideMap);
+    
+    // Adicionar listener apenas se o botão existir
+    const cancelBtn = document.getElementById('cancelGuessBtn');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', hideMap);
+    }
+    
     document.getElementById('confirmGuessBtn').addEventListener('click', confirmGuess);
     document.getElementById('continueBtn').addEventListener('click', hidePopup);
     document.getElementById('newGameBtn').addEventListener('click', newGame);
@@ -109,6 +115,11 @@ function startNewRound() {
 function updateMapInterface(hasGuess) {
     const confirmBtn = document.getElementById('confirmGuessBtn');
     const instructions = document.getElementById('mapInstructions');
+    
+    // Verificar se os elementos existem antes de tentar manipulá-los
+    if (!confirmBtn || !instructions) {
+        return;
+    }
     
     if (hasGuess) {
         confirmBtn.disabled = false;
