@@ -50,6 +50,9 @@ function initializeMap() {
                 title: 'Seu palpite',
                 icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
             });
+            
+            // Atualizar interface quando há palpite
+            updateMapInterface(true);
         }
     });
 }
@@ -70,6 +73,7 @@ function initializeStreetView() {
 function setupEventListeners() {
     document.getElementById('showMapBtn').addEventListener('click', showMap);
     document.getElementById('closeMapBtn').addEventListener('click', hideMap);
+    document.getElementById('cancelGuessBtn').addEventListener('click', hideMap);
     document.getElementById('confirmGuessBtn').addEventListener('click', confirmGuess);
     document.getElementById('continueBtn').addEventListener('click', hidePopup);
     document.getElementById('newGameBtn').addEventListener('click', newGame);
@@ -97,11 +101,34 @@ function startNewRound() {
     userGuess = null;
     gameActive = true;
     updateUI();
+    
+    // Reset interface do mapa
+    updateMapInterface(false);
+}
+
+function updateMapInterface(hasGuess) {
+    const confirmBtn = document.getElementById('confirmGuessBtn');
+    const instructions = document.getElementById('mapInstructions');
+    
+    if (hasGuess) {
+        confirmBtn.disabled = false;
+        confirmBtn.classList.add('has-guess');
+        confirmBtn.textContent = '🎯 Confirmar Palpite';
+        instructions.classList.add('hidden');
+    } else {
+        confirmBtn.disabled = true;
+        confirmBtn.classList.remove('has-guess');
+        confirmBtn.textContent = '🎯 Clique no mapa primeiro';
+        instructions.classList.remove('hidden');
+    }
 }
 
 function showMap() {
     document.getElementById('mapSlider').classList.add('active');
+    // Reset interface state
+    updateMapInterface(!!userGuess);
 }
+
 function hideMap() {
     document.getElementById('mapSlider').classList.remove('active');
 }
