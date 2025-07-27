@@ -21,6 +21,10 @@
             <div id="cronometro" style="background:#fff; color:#198754; font-weight:700; font-size:1.15em; padding:8px 16px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-right:16px;">
                 --:--:--
             </div>
+            <a href="{{ route('ranking.show', $gincana->id) }}" 
+               style="padding: 12px 24px; font-weight: 500; background: #6f42c1; color: white; border: none; border-radius: 6px; font-size: 1.15em; text-decoration: none; margin-right: 12px;">
+                🏆 Ver Ranking
+            </a>
             <a href="{{ route('gincana.index') }}" class="btn btn-secondary" style="padding: 12px 32px; font-weight: 500; background: #6c757d; color: white; border: none; min-width: 220px; border-radius: 6px; font-size: 1.15em; text-align:center;">Voltar para lista</a>
         </div>
     </div>

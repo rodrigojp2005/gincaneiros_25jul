@@ -1,7 +1,19 @@
 @extends('layouts.app')
 @section('content')
 <div class="container" style="max-width: 800px; margin: 10px auto 0 auto;">
-    <h2 style="margin-bottom: 18px; font-weight: 600; color: #198754; font-size: 2rem;">Lista de Gincanas Criadas</h2>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+        <h2 style="margin: 0; font-weight: 600; color: #198754; font-size: 2rem;">Lista de Gincanas Criadas</h2>
+        <div style="display: flex; gap: 10px;">
+            <a href="{{ route('ranking.index') }}" 
+               style="background: #6f42c1; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px;">
+                🏆 Rankings
+            </a>
+            <a href="{{ route('ranking.geral') }}" 
+               style="background: #fd7e14; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px;">
+                🌟 Ranking Geral
+            </a>
+        </div>
+    </div>
     @if($gincanas->isEmpty())
         <p style="margin-top: 24px;">Nenhuma gincana cadastrada.</p>
     @else

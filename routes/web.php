@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RankingController;
 use App\Models\GincanaLocal;
 use App\Models\Gincana;
 use Illuminate\Support\Facades\Route;
@@ -76,4 +77,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/gincana/{gincana}/edit', [GincanaController::class, 'edit'])->name('gincana.edit');
     Route::put('/gincana/{gincana}', [GincanaController::class, 'update'])->name('gincana.update');
     Route::delete('/gincana/{gincana}', [GincanaController::class, 'destroy'])->name('gincana.destroy');
+    
+    // Rotas de Ranking
+    Route::get('/rankings', [RankingController::class, 'index'])->name('ranking.index');
+    Route::get('/ranking/{gincana}', [RankingController::class, 'show'])->name('ranking.show');
+    Route::get('/ranking-geral', [RankingController::class, 'geral'])->name('ranking.geral');
 });

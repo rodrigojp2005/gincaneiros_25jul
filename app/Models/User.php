@@ -45,4 +45,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function participacoes()
+    {
+        return $this->hasMany(Participacao::class);
+    }
+
+    public function gincanas()
+    {
+        return $this->belongsToMany(Gincana::class, 'participacoes')
+                    ->withPivot('pontuacao', 'status', 'tempo_total_segundos', 'locais_visitados')
+                    ->withTimestamps();
+    }
 }

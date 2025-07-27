@@ -22,4 +22,16 @@ class Gincana extends Model
     {
         return $this->hasMany(GincanaLocal::class);
     }
+
+    public function participacoes()
+    {
+        return $this->hasMany(Participacao::class);
+    }
+
+    public function participantes()
+    {
+        return $this->belongsToMany(User::class, 'participacoes')
+                    ->withPivot('pontuacao', 'status', 'tempo_total_segundos', 'locais_visitados')
+                    ->withTimestamps();
+    }
 }

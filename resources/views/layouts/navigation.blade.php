@@ -38,6 +38,24 @@
                     </div>
                 </div>
 
+                <!-- Dropdown Rankings -->
+                <div class="relative group">
+                    <button class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md transition-all duration-200 flex items-center gap-1 {{ request()->routeIs('ranking.*') ? 'text-gray-900 bg-gray-100 font-medium' : '' }}">
+                        🏆 Rankings
+                        <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <a href="{{ route('ranking.geral') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200 {{ request()->routeIs('ranking.geral') ? 'text-gray-900 bg-gray-100' : '' }}">
+                            🌟 Ranking Geral
+                        </a>
+                        <a href="{{ route('ranking.index') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200 {{ request()->routeIs('ranking.index') ? 'text-gray-900 bg-gray-100' : '' }}">
+                            📊 Por Gincana
+                        </a>
+                    </div>
+                </div>
+
                 <!-- Links informativos -->
                 <a href="#" onclick="event.preventDefault(); mostrarComoJogar()" class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md transition-all duration-200">
                     Como Jogar
@@ -92,6 +110,17 @@
                         </a>
                         <a href="#" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-6 py-2 rounded-md transition-all duration-200" onclick="event.preventDefault(); /* TODO: implementar lista de gincanas jogadas */">
                             Gincanas Jogadas
+                        </a>
+                    </div>
+
+                    <!-- Rankings section -->
+                    <div class="space-y-2">
+                        <p class="text-sm font-medium text-gray-500 px-3">🏆 Rankings</p>
+                        <a href="{{ route('ranking.geral') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-6 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('ranking.geral') ? 'text-gray-900 bg-gray-100' : '' }}">
+                            🌟 Ranking Geral
+                        </a>
+                        <a href="{{ route('ranking.index') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-6 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('ranking.index') ? 'text-gray-900 bg-gray-100' : '' }}">
+                            📊 Por Gincana
                         </a>
                     </div>
 
