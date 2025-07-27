@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 use App\Http\Controllers\GincanaController;
+use App\Http\Controllers\GameController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/gincana/create', [GincanaController::class, 'create'])->name('gincana.create');
@@ -78,6 +79,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/gincana/{gincana}/edit', [GincanaController::class, 'edit'])->name('gincana.edit');
     Route::put('/gincana/{gincana}', [GincanaController::class, 'update'])->name('gincana.update');
     Route::delete('/gincana/{gincana}', [GincanaController::class, 'destroy'])->name('gincana.destroy');
+    
+    // Rotas do jogo
+    Route::post('/game/save-score', [GameController::class, 'saveScore'])->name('game.save-score');
     
     // Rotas de Ranking
     Route::get('/rankings', [RankingController::class, 'index'])->name('ranking.index');

@@ -153,16 +153,22 @@ function confirmGuess() {
         });
         return;
     }
+    
     const distance = calculateDistance(currentLocation, userGuess);
     attempts--;
     let message = `Distância: ${distance.toFixed(2)} km`;
     let title = 'Resultado do Palpite';
     let icon = 'info';
+    
     if (distance <= 10) {
         title = 'Parabéns! 🎉';
         icon = 'success';
         message += `\n\nVocê acertou! A localização era: ${currentLocation.name}`;
         message += `\n\nPontuação final: ${score} pontos`;
+        
+        // Salvar pontuação no banco de dados
+        saveScoreToDatabase(score, currentLocation);
+        
         endRound(true);
     } else {
         score = Math.max(0, score - 200);
@@ -177,9 +183,14 @@ function confirmGuess() {
             message += `\n\nSuas tentativas acabaram!`;
             message += `\n\nA localização era: ${currentLocation.name}`;
             message += `\n\nPontuação final: ${score} pontos`;
+            
+            // Salvar pontuação no banco de dados
+            saveScoreToDatabase(score, currentLocation);
+            
             endRound(false);
         }
     }
+    
     Swal.fire({
         icon: icon,
         title: title,
@@ -187,6 +198,7 @@ function confirmGuess() {
         confirmButtonColor: '#007bff',
         allowOutsideClick: false
     });
+    
     updateUI();
 }
 function calculateDistance(pos1, pos2) {
@@ -269,3 +281,42 @@ window.addEventListener("load", () => {
         }
     }, 100);
 });
+
+// Função para salvar pontuação no banco de dados
+async function saveScoreToDatabase(pontuacao, location) {
+    try {
+        // Verificar se o usuário está logado (se existe um token CSRF)
+        const csrfToken = document.querySelector('meta[name="csrf-token"]');
+        if (!csrfToken) {
+            console.log('Usuário não logado - pontuação não será salva');
+            return;
+        }
+
+        const response = await fetch('/game/save-score', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                gincana_id: location.gincana_id || null, // ID da gincana se estiver jogando uma específica
+                pontuacao: pontuacao,
+                tempo_total_segundos: null, // Podemos implementar timer depois
+                locais_visitados: 1,
+                latitude: location.lat,
+                longitude: location.lng
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('Pontuação salva com sucesso!', data);
+        } else {
+            console.error('Erro ao salvar pontuação:', data);
+        }
+    } catch (error) {
+        console.error('Erro na requisição para salvar pontuação:', error);
+    }
+}
