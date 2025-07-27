@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/gincana', [GincanaController::class, 'index'])->name('gincana.index');
     Route::get('/gincana/jogadas', [GincanaController::class, 'jogadas'])->name('gincana.jogadas');
     Route::get('/gincana/{gincana}', [GincanaController::class, 'show'])->name('gincana.show');
+    Route::get('/gincana/{gincana}/jogar', [GincanaController::class, 'jogar'])->name('gincana.jogar');
     Route::get('/gincana/{gincana}/edit', [GincanaController::class, 'edit'])->name('gincana.edit');
     Route::put('/gincana/{gincana}', [GincanaController::class, 'update'])->name('gincana.update');
     Route::delete('/gincana/{gincana}', [GincanaController::class, 'destroy'])->name('gincana.destroy');

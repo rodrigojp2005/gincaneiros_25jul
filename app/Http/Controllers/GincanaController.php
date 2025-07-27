@@ -77,12 +77,53 @@ class GincanaController extends Controller
     // Lista as gincanas que o usuário jogou (participou)
     public function jogadas()
     {
+        // Gincanas que o usuário já jogou
         $gincanasJogadas = Auth::user()->gincanasParticipando()
             ->with(['user', 'participacoes' => function($query) {
                 $query->where('user_id', Auth::id());
             }])
+            ->whereHas('user') // Garante que só carrega gincanas com usuário válido
+            ->get();
+
+        // Gincanas públicas disponíveis que o usuário ainda não jogou
+        $gincanasDisponiveis = Gincana::where('privacidade', 'publica')
+            ->where('user_id', '!=', Auth::id()) // Não incluir as próprias gincanas
+            ->whereDoesntHave('participacoes', function($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->with('user')
+            ->whereHas('user')
             ->get();
         
-        return view('gincana.jogadas', compact('gincanasJogadas'));
+        return view('gincana.jogadas', compact('gincanasJogadas', 'gincanasDisponiveis'));
+    }
+
+    // Jogar uma gincana específica
+    public function jogar(Gincana $gincana)
+    {
+        // Criar array de locais da gincana
+        $locations = [];
+        
+        // Adicionar local principal da gincana
+        $locations[] = [
+            'lat' => (float) $gincana->latitude,
+            'lng' => (float) $gincana->longitude,
+            'name' => $gincana->nome,
+            'gincana_id' => $gincana->id,
+            'contexto' => $gincana->contexto
+        ];
+        
+        // Adicionar locais adicionais se existirem
+        foreach ($gincana->locais as $local) {
+            $locations[] = [
+                'lat' => (float) $local->latitude,
+                'lng' => (float) $local->longitude,
+                'name' => $gincana->nome . ' - Local Adicional',
+                'gincana_id' => $gincana->id,
+                'contexto' => $gincana->contexto
+            ];
+        }
+        
+        return view('gincana.play', compact('gincana', 'locations'));
     }
 }

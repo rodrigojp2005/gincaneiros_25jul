@@ -16,6 +16,7 @@ class RankingController extends Controller
         $participacoes = Participacao::where('gincana_id', $gincanaId)
             ->where('status', 'concluida')
             ->with('user')
+            ->whereHas('user') // Garante que só carrega participações com usuário válido
             ->orderBy('pontuacao', 'desc') // Primeiro critério: maior pontuação
             ->orderBy('tempo_total_segundos', 'asc') // Segundo critério: menor tempo
             ->orderBy('locais_visitados', 'desc') // Terceiro critério: mais locais visitados
@@ -46,6 +47,7 @@ class RankingController extends Controller
         // Ranking geral de todos os usuários em todas as gincanas
         $rankingGeral = Participacao::where('status', 'concluida')
             ->with(['user', 'gincana'])
+            ->whereHas('user') // Garante que só carrega participações com usuário válido
             ->selectRaw('
                 user_id,
                 users.name as user_name,

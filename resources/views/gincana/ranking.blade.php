@@ -90,14 +90,14 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="w-10 h-10 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
-                                                {{ strtoupper(substr($participacao->user->name, 0, 1)) }}
+                                                {{ $participacao->user ? strtoupper(substr($participacao->user->name, 0, 1)) : '?' }}
                                             </div>
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">
-                                                    {{ $participacao->user->name }}
+                                                    {{ $participacao->user ? $participacao->user->name : 'Usuário Desconhecido' }}
                                                 </div>
                                                 <div class="text-sm text-gray-500">
-                                                    {{ $participacao->user->email }}
+                                                    {{ $participacao->user ? $participacao->user->email : 'Email não disponível' }}
                                                 </div>
                                             </div>
                                         </div>

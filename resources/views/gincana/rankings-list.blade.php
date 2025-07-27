@@ -89,7 +89,7 @@
                                                         <span class="text-orange-400">🥉</span>
                                                     @endif
                                                     <span class="ml-2 text-gray-900">
-                                                        {{ Str::limit($participacao->user->name, 15) }}
+                                                        {{ $participacao->user ? Str::limit($participacao->user->name, 15) : 'Usuário Desconhecido' }}
                                                     </span>
                                                 </div>
                                                 <span class="font-semibold text-blue-600">
