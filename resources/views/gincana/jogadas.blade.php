@@ -120,10 +120,10 @@
 
                             <!-- Actions -->
                             <div class="flex gap-2">
-                                <a href="{{ route('gincana.jogar', $gincana) }}" 
+                                <!-- <a href="{{ route('gincana.jogar', $gincana) }}" 
                                    class="flex-1 bg-green-600 text-white text-center px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm font-medium">
                                     � Jogar
-                                </a>
+                                </a> -->
                                 <a href="{{ route('ranking.show', $gincana->id) }}" 
                                    class="flex-1 bg-blue-600 text-white text-center px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm font-medium">
                                     🏆 Ver Ranking

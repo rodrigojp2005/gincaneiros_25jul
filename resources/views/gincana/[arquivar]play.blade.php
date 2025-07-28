@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+
+<!-- não vejo sentido nessa view: ela exiset pq nno link de gincanas que joguei tem o link de jogar (novamente) esta gincana... porém nesta outra view , acho melhor remolver aquele link--->
 <div class="game-container">
     <!-- Informações da gincana -->
     <div class="game-info" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">

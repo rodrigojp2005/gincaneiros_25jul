@@ -18,12 +18,12 @@
                         <span>👥 {{ $participacoes->count() }} participantes</span>
                     </div>
                 </div>
-                <div class="text-right">
+                <!-- <div class="text-right">
                     <a href="{{ route('gincana.show', $gincana->id) }}" 
                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
                         Ver Gincana
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
 

@@ -19,10 +19,10 @@
                        class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-colors mr-2">
                         Ranking Geral
                     </a>
-                    <a href="{{ route('gincana.index') }}" 
+                    <!-- <a href="{{ route('gincana.index') }}" 
                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
                         Ver Gincanas
-                    </a>
+                    </a> -->
                 </div>
             </div>
         </div>

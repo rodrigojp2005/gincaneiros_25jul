@@ -2,8 +2,9 @@
 @section('content')
 <div class="container" style="max-width: 800px; margin: 10px auto 0 auto;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-        <h2 style="margin: 0; font-weight: 600; color: #198754; font-size: 2rem;">Lista de Gincanas Criadas</h2>
-        <div style="display: flex; gap: 10px;">
+        <h2 style="margin: 0; font-weight: 600; color: #198754; font-size: 2rem;">Gincanas que Criei</h2>
+        <!-- não faz sentido esses botoes de ver ranking na view de gincanas que criei, pois se criei, ja sei o ranking, logo nao preciso ver o ranking aqui, e sim na view de ranking -->
+        <!-- <div style="display: flex; gap: 10px;">
             <a href="{{ route('ranking.index') }}" 
                style="background: #6f42c1; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px;">
                 🏆 Rankings
@@ -12,7 +13,7 @@
                style="background: #fd7e14; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px;">
                 🌟 Ranking Geral
             </a>
-        </div>
+        </div> -->
     </div>
     @if($gincanas->isEmpty())
         <p style="margin-top: 24px;">Nenhuma gincana cadastrada.</p>
@@ -39,9 +40,22 @@
                         <td style="padding: 10px 8px;">{{ $gincana->created_at->format('d/m/Y H:i') }}</td>
                         <td style="padding: 10px 8px; text-align:center;">
                             <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                                <a href="{{ route('gincana.show', $gincana) }}" title="Ver detalhes" style="background: none; border: none; color: #198754; font-size: 1.3em; vertical-align: middle; display: flex; align-items: center;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-1.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>
-                                </a>
+                                <button onclick="copyGincanaLink({{ $gincana->id }})" title="Compartilhar link" style="background: none; border: none; color: #0d6efd; font-size: 1.3em; vertical-align: middle; display: flex; align-items: center; cursor: pointer;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 0 1 1.5 1.5v11a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 13.5v-11A1.5 1.5 0 0 1 2.5 1h11zm0 1h-11A.5.5 0 0 0 2 2.5v11a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5zM4 4.5A.5.5 0 0 1 4.5 4h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 4.5zm0 3A.5.5 0 0 1 4.5 7h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 7.5zm0 3A.5.5 0 0 1 4.5 10h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z"/></svg>
+                                </button>
+
+@section('scripts')
+<script>
+    function copyGincanaLink(gincanaId) {
+        const url = `${window.location.origin}/gincana/${gincanaId}`;
+        navigator.clipboard.writeText(url).then(function() {
+            alert('Link copiado!');
+        }, function() {
+            alert('Não foi possível copiar o link.');
+        });
+    }
+</script>
+@endsection
                                 <a href="{{ route('gincana.edit', $gincana) }}" title="Editar" style="background: none; border: none; color: #ffc107; font-size: 1.3em; vertical-align: middle; display: flex; align-items: center;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706l-1.292 1.292-2.121-2.121 1.292-1.292a.5.5 0 0 1 .706 0l1.415 1.415zm-1.75 2.456-2.121-2.121-8.486 8.486a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l8.486-8.486z"/></svg>
                                 </a>
