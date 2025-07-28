@@ -95,6 +95,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/gincana', [GincanaController::class, 'store'])->name('gincana.store');
     Route::get('/gincana', [GincanaController::class, 'index'])->name('gincana.index');
     Route::get('/gincana/jogadas', [GincanaController::class, 'jogadas'])->name('gincana.jogadas');
+    Route::get('/gincana/disponiveis', function() {
+        $user = auth()->user();
+        $jogadasIds = $user->participacoes()->pluck('gincana_id')->toArray();
+        $gincanasDisponiveis = \App\Models\Gincana::where('privacidade', 'publica')
+            ->whereNotIn('id', $jogadasIds)
+            ->with('user')
+            ->get();
+        return view('gincana.disponiveis', compact('gincanasDisponiveis'));
+    })->name('gincana.disponiveis');
     Route::get('/gincana/{gincana}', [GincanaController::class, 'show'])->name('gincana.show');
     Route::get('/gincana/{gincana}/jogar', [GincanaController::class, 'jogar'])->name('gincana.jogar');
     Route::get('/gincana/{gincana}/edit', [GincanaController::class, 'edit'])->name('gincana.edit');

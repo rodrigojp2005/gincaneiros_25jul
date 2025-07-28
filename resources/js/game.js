@@ -33,7 +33,15 @@ function initializeMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 4,
         center: { lat: -14.2350, lng: -51.9253 },
-        mapTypeId: 'roadmap'
+        mapTypeId: 'roadmap',
+        zoomControl: true,
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false,
+        rotateControl: false,
+        scaleControl: false,
+        panControl: false,
+        navigationControl: false
     });
     map.addListener('click', function(event) {
         if (gameActive) {
@@ -158,8 +166,8 @@ function confirmGuess() {
     
     const distance = calculateDistance(currentLocation, userGuess);
     attempts--;
-    let message = `Distância: ${distance.toFixed(2)} km`;
-    let title = 'Resultado do Palpite';
+    let message = `Você está à ${distance.toFixed(2)} km do local, `;
+    let title = `Siga nessa direção ...`;
     let icon = 'info';
     
     if (distance <= 10) {
@@ -192,16 +200,33 @@ function confirmGuess() {
         icon = 'error';
         if (attempts > 0) {
             const direction = getDirection(currentLocation, userGuess);
-            message += `\n\nDireção: ${direction}`;
-            message += `\n\nTentativas restantes: ${attempts}`;
-            message += `\n\nPontuação atual: ${score}`;
-            
-            // Para tentativas restantes, manter comportamento normal
+            let directionImg = '';
+            switch (direction) {
+                case 'Norte':
+                    directionImg = 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGt2MXQzdmY3eHFrYzNkcjNmcnhhbWl5emlzYjNibnR5ZmEwc2locyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/7aFMOMlY5HgQnCcK5n/giphy.gif'; // seta norte
+                    break;
+                case 'Sul':
+                    directionImg = 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWwxbW12a2ExZTByd2x4aGxxdjhrbjJxdmJhZDJkZ2x3aW12czY2aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/jfxNsKqJLIc3Kw1nZz/giphy.gif'; // seta sul
+                    break;
+                case 'Leste':
+                    directionImg = 'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmlwZXAydHE4cmszOHlpdDBudnd4OTd6cW4ybjhrODVzMW5tMGQxZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/A0Mmm3WcsQVrMlYjlY/giphy.gif'; // seta leste
+                    break;
+                case 'Oeste':
+                    directionImg = 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWd5aW5nbnpreWNlcXh6MHk1aDVtMWJkdTJoOW15bm1ycHcwb2swciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/CGTFfpxHMpxCJk1eGR/giphy.gif'; // seta oeste
+                    break;
+            }
+            message += `\n\n vá mais para o ${direction}.`;
+            message += `\n\n Falta(m) ${attempts} tentativa(s). Dê zoom para facilitar a localização.`;
+            message += `\n\n Sua pontuação atual está em ${score} pts, cada erro perde 200 pts.`;
             Swal.fire({
-                icon: icon,
                 title: title,
-                text: message,
+                text: message.replace(/\n/g, ' '),
+                imageUrl: directionImg,
+                imageWidth: 150,
+                imageHeight: 150,
+                imageAlt: direction,
                 confirmButtonColor: '#007bff',
+                confirmButtonText: 'Continuar',
                 allowOutsideClick: false
             });
         } else {

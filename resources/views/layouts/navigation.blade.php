@@ -48,6 +48,9 @@
                         <a href="{{ route('gincana.jogadas') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200 {{ request()->routeIs('gincana.jogadas') ? 'text-gray-900 bg-gray-100' : '' }}">
                             Gincanas que Joguei
                         </a>
+                        <a href="{{ route('gincana.disponiveis') }}" class="block px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200 {{ request()->routeIs('gincana.disponiveis') ? 'text-gray-900 bg-gray-100' : '' }}">
+                            Gincanas Disponíveis
+                        </a>
                     </div>
                 </div>
 
@@ -129,6 +132,9 @@
                         </a>
                         <a href="{{ route('gincana.jogadas') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-6 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('gincana.jogadas') ? 'text-gray-900 bg-gray-100' : '' }}">
                             Gincanas que Joguei
+                        </a>
+                        <a href="{{ route('gincana.disponiveis') }}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-6 py-2 rounded-md transition-all duration-200 {{ request()->routeIs('gincana.disponiveis') ? 'text-gray-900 bg-gray-100' : '' }}">
+                            Gincanas Disponíveis
                         </a>
                     </div>
 

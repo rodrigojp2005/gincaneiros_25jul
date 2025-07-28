@@ -40,19 +40,29 @@
                         <td style="padding: 10px 8px;">{{ $gincana->created_at->format('d/m/Y H:i') }}</td>
                         <td style="padding: 10px 8px; text-align:center;">
                             <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                                <button onclick="copyGincanaLink({{ $gincana->id }})" title="Compartilhar link" style="background: none; border: none; color: #0d6efd; font-size: 1.3em; vertical-align: middle; display: flex; align-items: center; cursor: pointer;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 0 1 1.5 1.5v11a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 13.5v-11A1.5 1.5 0 0 1 2.5 1h11zm0 1h-11A.5.5 0 0 0 2 2.5v11a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5zM4 4.5A.5.5 0 0 1 4.5 4h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 4.5zm0 3A.5.5 0 0 1 4.5 7h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 7.5zm0 3A.5.5 0 0 1 4.5 10h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z"/></svg>
+                                <button onclick="copyGincanaLink({{ $gincana->id }})" title="Compartilhar via WhatsApp ou copiar link" style="background: none; border: none; color: #25D366; font-size: 1.3em; vertical-align: middle; display: flex; align-items: center; cursor: pointer;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 32 32"><path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.668 4.617 1.934 6.594L4 29l7.594-1.934A12.96 12.96 0 0 0 16 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.98 0-3.91-.52-5.594-1.508l-.406-.234-4.508 1.148 1.148-4.508-.234-.406A10.96 10.96 0 0 1 6 15c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10zm5.406-7.594c-.297-.148-1.758-.867-2.031-.967-.273-.099-.47-.148-.668.148-.198.297-.767.967-.94 1.166-.173.198-.347.223-.644.074-.297-.148-1.255-.463-2.39-1.477-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.457.13-.605.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.52-.074-.148-.668-1.611-.915-2.205-.242-.583-.487-.504-.668-.513-.173-.009-.372-.011-.57-.011-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.148.198 2.099 3.205 5.086 4.369.712.307 1.267.491 1.701.629.715.228 1.366.196 1.88.119.574-.085 1.758-.719 2.007-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
                                 </button>
 
 @section('scripts')
 <script>
     function copyGincanaLink(gincanaId) {
         const url = `${window.location.origin}/gincana/${gincanaId}`;
-        navigator.clipboard.writeText(url).then(function() {
-            alert('Link copiado!');
-        }, function() {
-            alert('Não foi possível copiar o link.');
-        });
+        if (navigator.share) {
+            navigator.share({
+                title: 'Gincana',
+                text: 'Venha jogar minha gincana e descubra se você consegue vencer o meu desafio! 🏆🎯',
+                url: url
+            }).catch(() => {
+                // fallback caso o usuário cancele
+            });
+        } else {
+            navigator.clipboard.writeText(url).then(function() {
+                alert('Link copiado!');
+            }, function() {
+                alert('Não foi possível copiar o link.');
+            });
+        }
     }
 </script>
 @endsection
