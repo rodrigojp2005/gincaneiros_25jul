@@ -15,7 +15,7 @@
 
         @if($gincanasJogadas->count() > 0)
             <!-- Statistics Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="bg-white rounded-xl shadow-lg p-6 text-center">
                     <div class="text-3xl font-bold text-blue-600">{{ $gincanasJogadas->count() }}</div>
                     <div class="text-gray-600 mt-2">Gincanas Jogadas</div>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="text-gray-600 mt-2">Em Progresso</div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Gincanas List -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -166,7 +166,7 @@
 
     <!-- Seção de Gincanas Disponíveis -->
     @if(isset($gincanasDisponiveis) && $gincanasDisponiveis->count() > 0)
-        <div class="mb-8">
+        <div class=" text-center mb-8 mt-8">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">🌟 Gincanas Disponíveis</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -218,13 +218,9 @@
 
                             <!-- Actions -->
                             <div class="flex gap-2">
-                                <a href="{{ route('gincana.jogar', $gincana) }}" 
+                                <a href="{{ route('gincana.show', $gincana) }}" 
                                    class="flex-1 bg-green-600 text-white text-center px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm font-medium">
                                     🎮 Jogar Agora
-                                </a>
-                                <a href="{{ route('gincana.show', $gincana) }}" 
-                                   class="flex-1 bg-gray-600 text-white text-center px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200 text-sm font-medium">
-                                    👁️ Ver Detalhes
                                 </a>
                             </div>
                         </div>
