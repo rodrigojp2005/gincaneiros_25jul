@@ -68,8 +68,20 @@ class GincanaController extends Controller
     }
 
     // Exibe detalhes de uma gincana
+
     public function show(Gincana $gincana)
     {
+        $user = auth()->user();
+        $jaJogou = false;
+        if ($user) {
+            $jaJogou = \App\Models\Participacao::where('user_id', $user->id)
+                ->where('gincana_id', $gincana->id)
+                ->exists();
+        }
+        if ($jaJogou) {
+            return view('gincana.ja_jogada', compact('gincana'));
+        }
+        // ...jogo normal...
         $locais = $gincana->locais()->get(['latitude', 'longitude']);
         return view('gincana.show', compact('gincana', 'locais'));
     }

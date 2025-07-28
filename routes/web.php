@@ -50,8 +50,36 @@ function getGameLocations() {
 }
 
 // Rota principal - funciona para visitantes e usuários logados
-Route::get('/', function () {
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Participacao;
+Route::get('/', function (Request $request) {
     $locations = getGameLocations();
+    $gincanaId = $request->query('gincana');
+    $user = Auth::user();
+    if ($gincanaId && $user) {
+        $jaJogou = Participacao::where('user_id', $user->id)
+            ->where('gincana_id', $gincanaId)
+            ->exists();
+        if ($jaJogou) {
+            return view('gincana.ja_jogada');
+        }
+        // Destacar a gincana selecionada como primeiro local
+        $gincana = App\Models\Gincana::find($gincanaId);
+        if ($gincana) {
+            $selected = [
+                'lat' => (float) $gincana->latitude,
+                'lng' => (float) $gincana->longitude,
+                'name' => $gincana->nome,
+                'gincana_id' => $gincana->id,
+                'contexto' => $gincana->contexto
+            ];
+            $locations = array_filter($locations, function($loc) use ($gincanaId) {
+                return $loc['gincana_id'] != $gincanaId;
+            });
+            array_unshift($locations, $selected);
+        }
+    }
     return view('welcome', compact('locations'));
 })->name('home');
 
