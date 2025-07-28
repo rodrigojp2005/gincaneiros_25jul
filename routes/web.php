@@ -7,6 +7,7 @@ use App\Http\Controllers\RankingController;
 use App\Models\GincanaLocal;
 use App\Models\Gincana;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\SocialiteController;
 
 // Função para carregar locais de jogo
 function getGameLocations() {
@@ -118,5 +119,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/ranking/{gincana}', [RankingController::class, 'show'])->name('ranking.show');
     Route::get('/ranking-geral', [RankingController::class, 'geral'])->name('ranking.geral');
 });
+
+Route::get('auth/google', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
 
 require __DIR__.'/auth.php';
